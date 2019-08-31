@@ -1,16 +1,4 @@
-pragma solidity ^0.5.11;
-
-
-contract Context {
-    constructor () internal { }
-    function _msgSender() internal view returns (address) {
-        return msg.sender;
-    }
-    function _msgData() internal view returns (bytes memory) {
-        this; 
-        return msg.data;
-    }
-}
+pragma solidity ^0.5.4;
 
 
 library SafeMath {
@@ -109,10 +97,24 @@ contract IERC721Receiver {
 }
 
 
+
+contract Context {
+    constructor () internal { }
+    function _msgSender() internal view returns (address) {
+        return msg.sender;
+    }
+    function _msgData() internal view returns (bytes memory) {
+        this; 
+        return msg.data;
+    }
+}
+
+
 interface IERC165 {
     
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
+
 
 
 contract IERC721 is IERC165 {
