@@ -443,7 +443,9 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
     function _burn(address owner, uint256 tokenId) internal {
         super._burn(owner, tokenId);
         // Clear metadata (if any)
-        
+        if (bytes(_tokenURIs[tokenId]).length != 0) {
+            delete _tokenURIs[tokenId];
+        }
     }
 }
 
