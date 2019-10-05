@@ -467,9 +467,9 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
         return _tokenType[tokenId];
     }
-    function _setTokenType(uint256 tokenId, string memory type) internal {
+    function _setTokenType(uint256 tokenId, string memory EventTicketType) internal {
         require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
-        _tokenType[tokenId] = type;
+        _tokenType[tokenId] = EventTicketType;
     }
     
     function _burn(address owner, uint256 tokenId) internal {
