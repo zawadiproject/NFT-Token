@@ -428,6 +428,7 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
 
     // Optional mapping for token URIs
     mapping(uint256 => string) private _tokenURIs;
+    mapping(uint256 => string) private _tokenName;
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     constructor (string memory name, string memory symbol) public {
         _name = name;
