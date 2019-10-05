@@ -456,7 +456,7 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
         return _tokenName[tokenId];
     }
-    function _setTokenName(uint256 tokenId, string memory uri) internal {
+    function _setTokenName(uint256 tokenId, string memory tokenName) internal {
         require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
         _tokenName[tokenId] = tokenName;
     }
