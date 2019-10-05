@@ -159,6 +159,7 @@ contract IERC721Metadata is IERC721 {
     function name() external view returns (string memory);
     function symbol() external view returns (string memory);
     function tokenURI(uint256 tokenId) external view returns (string memory);
+    function tokenName(uint256 tokenId) external view returns (string memory);
 }
 
 
@@ -449,11 +450,21 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         require(_exists(tokenId), "ERC721Metadata: URI set of nonexistent token");
         _tokenURIs[tokenId] = uri;
     }
+    
+    function tokenName(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
+        return _tokenName[tokenId];
+    }
+    function _setTokenName(uint256 tokenId, string memory uri) internal {
+        require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
+        _tokenName[tokenId] = tokenName;
+    }
     function _burn(address owner, uint256 tokenId) internal {
         super._burn(owner, tokenId);
         // Clear metadata (if any)
         if (bytes(_tokenURIs[tokenId]).length != 0) {
             delete _tokenURIs[tokenId];
+            delete _tokenName[tokenId];
         }
     }
 }
