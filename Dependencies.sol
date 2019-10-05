@@ -160,7 +160,7 @@ contract IERC721Metadata is IERC721 {
     function symbol() external view returns (string memory);
     function tokenURI(uint256 tokenId) external view returns (string memory);
     function eventName(uint256 tokenId) external view returns (string memory);
-    function eventType(uint256 tokenId) external view returns (string memory);
+    function ticketType(uint256 tokenId) external view returns (string memory);
 }
 
 
@@ -463,7 +463,7 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         _tokenName[tokenId] = ticketName;
     }
     
-    function eventType(uint256 tokenId) external view returns (string memory) {
+    function ticketType(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
         return _tokenType[tokenId];
     }
