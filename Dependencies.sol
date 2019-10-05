@@ -160,6 +160,7 @@ contract IERC721Metadata is IERC721 {
     function symbol() external view returns (string memory);
     function tokenURI(uint256 tokenId) external view returns (string memory);
     function eventName(uint256 tokenId) external view returns (string memory);
+    function eventType(uint256 tokenId) external view returns (string memory);
 }
 
 
@@ -429,6 +430,7 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
     // Optional mapping for token URIs
     mapping(uint256 => string) private _tokenURIs;
     mapping(uint256 => string) private _tokenName;
+    mapping(uint256 => string) private _tokenType;
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     constructor (string memory name, string memory symbol) public {
         _name = name;
@@ -460,12 +462,23 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
         _tokenName[tokenId] = ticketName;
     }
+    
+    function eventType(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
+        return _tokenType[tokenId];
+    }
+    function _setTokenType(uint256 tokenId, string memory ticketType) internal {
+        require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
+        _tokenType[tokenId] = ticketType;
+    }
+    
     function _burn(address owner, uint256 tokenId) internal {
         super._burn(owner, tokenId);
         // Clear metadata (if any)
         if (bytes(_tokenURIs[tokenId]).length != 0) {
             delete _tokenURIs[tokenId];
             delete _tokenName[tokenId];
+            delete _tokenType[tokenId];
         }
     }
 }
