@@ -160,6 +160,8 @@ contract IERC721Metadata is IERC721 {
     function symbol() external view returns (string memory);
     function tokenURI(uint256 tokenId) external view returns (string memory);
     function eventName(uint256 tokenId) external view returns (string memory);
+    function eventDate(uint256 tokenId) external view returns (string memory);
+    function eventLocation(uint256 tokenId) external view returns (string memory);
     function ticketType(uint256 tokenId) external view returns (string memory);
 }
 
@@ -431,6 +433,8 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
     mapping(uint256 => string) private _tokenURIs;
     mapping(uint256 => string) private _tokenName;
     mapping(uint256 => string) private _tokenType;
+    mapping(uint256 => string) private _tokenDate;
+    mapping(uint256 => string) private _tokenLocation;
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
     constructor (string memory name, string memory symbol) public {
         _name = name;
@@ -463,6 +467,24 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
         _tokenName[tokenId] = ticketName;
     }
     
+    function eventDate(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
+        return _tokenDate[tokenId];
+    }
+    function _setTokenDate(uint256 tokenId, string memory ticketDate) internal {
+        require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
+        _tokenDate[tokenId] = ticketDate;
+    }
+    
+    function eventLocation(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
+        return _tokenLocation[tokenId];
+    }
+    function _setTokenLocation(uint256 tokenId, string memory ticketLocation) internal {
+        require(_exists(tokenId), "ERC721Metadata: Name set of nonexistent token");
+        _tokenLocation[tokenId] = ticketLocation;
+    }
+    
     function ticketType(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: Name query for nonexistent token");
         return _tokenType[tokenId];
@@ -479,6 +501,8 @@ contract ERC721Metadata is Context, ERC165, ERC721, IERC721Metadata {
             delete _tokenURIs[tokenId];
             delete _tokenName[tokenId];
             delete _tokenType[tokenId];
+            delete _tokenDate[tokenId];
+            delete _tokenLocation[tokenId];
         }
     }
 }
