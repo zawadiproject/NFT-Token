@@ -643,7 +643,7 @@ contract EIP712MetaTransaction is EIP712Base {
     function() external payable { }
 }
 
-contract ERC721Full is ERC721, ERC721Enumerable, ERC721Metadata, EIP712MetaTransaction {
+contract ERC721Full is ERC721, ERC721Enumerable, ERC721Metadata {
     constructor (string memory name, string memory symbol) public ERC721Metadata(name, symbol) {
         // solhint-disable-previous-line no-empty-blocks
     }
