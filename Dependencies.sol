@@ -108,7 +108,7 @@ contract IERC721Receiver {
 contract Context {
     constructor () internal { }
     function _msgSender() internal view returns (address) {
-        return msg.sender;
+        return msgSender();
     }
     function _msgData() internal view returns (bytes memory) {
         this; 
@@ -584,11 +584,11 @@ contract EIP712MetaTransaction is EIP712Base {
         });
         require(verify(userAddress, metaTx, sigR, sigS, sigV), "Signer and signature do not match");
         // Append userAddress and relayer address at the end to extract it from calling context
-        (bool success, bytes memory returnData) = address(this).call(abi.encodePacked(functionSignature, userAddress, msg.sender));
+        (bool success, bytes memory returnData) = address(this).call(abi.encodePacked(functionSignature, userAddress, msgSender()));
 
         require(success, "Function call not successfull");
         nonces[userAddress] = nonces[userAddress].add(1);
-        emit MetaTransactionExecuted(userAddress, msg.sender, functionSignature);
+        emit MetaTransactionExecuted(userAddress, msgSender(), functionSignature);
         return returnData;
     }
 
@@ -610,7 +610,7 @@ contract EIP712MetaTransaction is EIP712Base {
 	}
 
     function msgSender() internal view returns(address sender) {
-        if(msg.sender == address(this)) {
+        if(msgSender() == address(this)) {
             bytes20 userAddress;
             bytes memory data = msg.data;
             uint256 dataLength = msg.data.length;
@@ -620,12 +620,12 @@ contract EIP712MetaTransaction is EIP712Base {
             }
             sender = address(uint160(userAddress));
         } else {
-            sender = msg.sender;
+            sender = msgSender();
         }
     }
 
     function msgRelayer() internal view returns(address relayer) {
-        if(msg.sender == address(this)) {
+        if(msgSender() == address(this)) {
             bytes20 relayerAddress;
             bytes memory data = msg.data;
             uint256 dataLength = msg.data.length;
